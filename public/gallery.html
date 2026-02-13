@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galerie d'Art</title>
+    <title>Class Group 6 Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +15,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: transparent;
             color: #fff;
             overflow: hidden;
@@ -23,14 +26,46 @@
 
         header {
             text-align: center;
-            padding: 15px;
+            padding: 20px 15px;
             z-index: 10;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00D9FF, #7C3AED, #FF1493, #00D9FF);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 217, 255, 0.3), 0 0 60px rgba(124, 58, 237, 0.2);
+            filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.4)) drop-shadow(0 0 20px rgba(124, 58, 237, 0.3));
+            animation: glowing 3s ease-in-out infinite, float 3s ease-in-out infinite;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes glowing {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.4)) drop-shadow(0 0 20px rgba(124, 58, 237, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 20, 147, 0.4));
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .subtitle {
             font-size: 1rem;
             opacity: 0.8;
+            letter-spacing: 2px;
+            color: #00D9FF;
         }
 
         .gallery-container {
@@ -307,11 +342,528 @@
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-50%) scale(1.1);
         }
+
+        /* Music Playlist Styles */
+        .playlist-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 15;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.2), 0 0 60px rgba(124, 58, 237, 0.1);
+            max-height: 500px;
+            overflow-y: auto;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50%) translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(-50%) translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .playlist-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00D9FF, #7C3AED);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .playlist-item {
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .playlist-item:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: rgba(0, 217, 255, 0.8);
+            transform: translateX(-5px);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .playlist-item.active {
+            background: rgba(0, 217, 255, 0.3);
+            border-color: rgba(0, 217, 255, 1);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+
+        .play-icon {
+            font-size: 1.2rem;
+            min-width: 20px;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #00D9FF;
+            margin-bottom: 3px;
+        }
+
+        .song-artist {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            color: #b0b0b0;
+        }
+
+        /* Footer Styles */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 12px 15px;
+            z-index: 10;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .developer-credit {
+            background: linear-gradient(90deg, rgba(0, 217, 255, 0.2), rgba(124, 58, 237, 0.2), rgba(255, 20, 147, 0.2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+        }
+
+        .developer-credit:hover {
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+            border-color: rgba(0, 217, 255, 0.6);
+        }
+
+        /* GitHub Icon Styles */
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+
+        .github-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 217, 255, 0.15);
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            color: #00D9FF;
+            font-size: 14px;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.2), inset 0 0 10px rgba(0, 217, 255, 0.1);
+            animation: github-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes github-glow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(0, 217, 255, 0.2), inset 0 0 10px rgba(0, 217, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 217, 255, 0.4), inset 0 0 15px rgba(0, 217, 255, 0.2);
+            }
+        }
+
+        .github-link:hover .github-icon {
+            background: rgba(0, 217, 255, 0.25);
+            border-color: rgba(0, 217, 255, 0.8);
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.6), inset 0 0 20px rgba(0, 217, 255, 0.3);
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        .github-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #00D9FF, #7C3AED);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+
+        /* Tablet & Small Devices (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .main-title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+
+            .artwork {
+                width: 300px;
+                height: 400px;
+            }
+
+            .playlist-container {
+                width: 250px;
+                top: auto;
+                bottom: 100px;
+                right: 10px;
+                transform: none;
+                animation: slideInBottom 0.5s ease-out;
+            }
+
+            @keyframes slideInBottom {
+                from {
+                    transform: translateY(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .playlist-title {
+                font-size: 1.1rem;
+            }
+
+            .song-name {
+                font-size: 0.9rem;
+            }
+
+            .song-artist {
+                font-size: 0.75rem;
+            }
+
+            .playlist-item {
+                padding: 10px;
+                margin-bottom: 8px;
+            }
+
+            .key-indicator {
+                font-size: 0.8rem;
+                bottom: 80px;
+            }
+
+            .counter {
+                font-size: 0.8rem;
+            }
+
+            footer {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Mobile Devices (< 768px) */
+        @media (max-width: 768px) {
+            body {
+                height: 100vh;
+            }
+
+            header {
+                padding: 15px 10px;
+            }
+
+            .main-title {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+                margin-bottom: 5px;
+            }
+
+            .subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+
+            .gallery-container {
+                overflow: visible;
+            }
+
+            .artwork {
+                width: 250px;
+                height: 350px;
+                border-radius: 10px;
+            }
+
+            .art-title {
+                font-size: 1.1rem;
+            }
+
+            .art-artist {
+                font-size: 0.9rem;
+            }
+
+            .counter {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+                top: 10px;
+                left: 10px;
+            }
+
+            .key-indicator {
+                display: none;
+            }
+
+            .controls {
+                display: none !important;
+            }
+
+            /* Move Playlist to Top for Mobile */
+            .playlist-container {
+                position: fixed;
+                right: auto;
+                left: 50%;
+                top: 80px;
+                bottom: auto;
+                width: 90%;
+                max-width: 280px;
+                transform: translateX(-50%);
+                max-height: 200px;
+                padding: 15px;
+                animation: slideDown 0.5s ease-out;
+                z-index: 20;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateX(-50%) translateY(-300px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(-50%) translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .playlist-title {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .playlist-item {
+                padding: 8px;
+                margin-bottom: 5px;
+                border-radius: 8px;
+            }
+
+            .play-icon {
+                font-size: 1rem;
+                min-width: 18px;
+            }
+
+            .song-name {
+                font-size: 0.85rem;
+                margin-bottom: 2px;
+            }
+
+            .song-artist {
+                font-size: 0.7rem;
+            }
+
+            /* Lightbox Responsive */
+            .lightbox-image {
+                max-width: 95%;
+                max-height: 70%;
+            }
+
+            .lightbox-title {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+
+            .lightbox-artist {
+                font-size: 1rem;
+            }
+
+            .lightbox-info {
+                padding: 15px;
+                bottom: 15px;
+            }
+
+            .lightbox-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .lightbox-close {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            /* Footer for Mobile */
+            footer {
+                padding: 10px 8px;
+                font-size: 0.75rem;
+            }
+
+            .developer-credit {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+                border-radius: 15px;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .github-link {
+                gap: 5px;
+                margin-left: 0;
+                display: inline-flex;
+            }
+
+            .github-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+            }
+
+            .github-label {
+                font-size: 0.7rem;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        /* Small Phone Devices (< 480px) */
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.2rem;
+                letter-spacing: 0.5px;
+            }
+
+            .subtitle {
+                font-size: 0.75rem;
+            }
+
+            header {
+                padding: 12px 8px;
+            }
+
+            .artwork {
+                width: 200px;
+                height: 300px;
+            }
+
+            .counter {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+
+            .playlist-container {
+                width: 85%;
+                max-height: 150px;
+                padding: 12px;
+                top: 75px;
+            }
+
+            .playlist-title {
+                font-size: 0.9rem;
+            }
+
+            .playlist-item {
+                padding: 6px;
+                margin-bottom: 4px;
+            }
+
+            .song-name {
+                font-size: 0.8rem;
+            }
+
+            .song-artist {
+                font-size: 0.65rem;
+            }
+
+            footer {
+                font-size: 0.7rem;
+            }
+
+            .developer-credit {
+                font-size: 0.7rem;
+            }
+
+            .github-label {
+                font-size: 0.65rem;
+            }
+
+            .github-icon {
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+            }
+        }
+
+        /* Landscape Mode */
+        @media (max-height: 600px) and (orientation: landscape) {
+            header {
+                padding: 8px 15px;
+            }
+
+            .main-title {
+                font-size: 1.3rem;
+                margin-bottom: 3px;
+            }
+
+            .subtitle {
+                font-size: 0.7rem;
+            }
+
+            .artwork {
+                height: 350px;
+            }
+
+            .playlist-container {
+                max-height: 200px;
+                padding: 10px;
+            }
+
+            footer {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <p class="subtitle">Explorez la collection - Cliquez sur une image pour l'agrandir</p>
+        <h1 class="main-title">𝐁𝐘 Class Group 6 Gallery</h1>
+        <p class="subtitle">✨ Click on images to view full size ✨</p>
     </header>
 
     <div class="gallery-container">
@@ -319,17 +871,17 @@
         <div class="gallery" id="gallery"></div>
         
         <div class="controls">
-            <button id="prevBtn">← Précédent</button>
-            <button id="nextBtn">Suivant →</button>
-            <button id="randomBtn">Aléatoire</button>
+            <button id="prevBtn">← Previous</button>
+            <button id="nextBtn">Next →</button>
+            <button id="randomBtn">Random</button>
         </div>
 
         <div class="key-indicator">
-            <p>Molette souris | Glisser | Flèches ← → | Touches G D | Espace pour aléatoire | Clic pour agrandir</p>
+            <p>Mouse wheel | Drag | Arrows ← → | Keys G D | Space for random | Click to enlarge</p>
         </div>
 
         <div class="loading" id="loading">
-            <p>Chargement de la galerie...</p>
+            <p>Loading gallery...</p>
         </div>
     </div>
 
@@ -458,17 +1010,301 @@
                     artist: "Commentaire",
                     image: "https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    title: "Memory 27",
+                    artist: "Class Moment",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    title: "Memory 28",
+                    artist: "Group Photo",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    title: "Memory 29",
+                    artist: "Friends Forever",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 30",
+                    artist: "Celebration Time",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 31",
+                    artist: "Campus Life",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 32",
+                    artist: "Team Spirit",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 33",
+                    artist: "Good Times",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 34",
+                    artist: "Joyful Moments",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 35",
+                    artist: "Together",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 36",
+                    artist: "Bond",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 37",
+                    artist: "Laughter",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 38",
+                    artist: "Friendship",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 39",
+                    artist: "Precious",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 40",
+                    artist: "Future",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 41",
+                    artist: "Forever",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 42",
+                    artist: "Class 2024",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 43",
+                    artist: "Chronicles",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 44",
+                    artist: "Stories",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 45",
+                    artist: "Legacy",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 46",
+                    artist: "Journey",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 47",
+                    artist: "Adventure",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 48",
+                    artist: "Milestone",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 49",
+                    artist: "Triumph",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 50",
+                    artist: "Golden Hour",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 51",
+                    artist: "Sunset",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 52",
+                    artist: "Sunrise",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 53",
+                    artist: "Dreams",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 54",
+                    artist: "Hope",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 55",
+                    artist: "Inspiration",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 56",
+                    artist: "Passion",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 57",
+                    artist: "Energy",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 58",
+                    artist: "Vitality",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 59",
+                    artist: "Life",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 60",
+                    artist: "Love",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 61",
+                    artist: "Care",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 62",
+                    artist: "Unity",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 63",
+                    artist: "Harmony",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 64",
+                    artist: "Balance",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 65",
+                    artist: "Peace",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 66",
+                    artist: "Serenity",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 67",
+                    artist: "Calm",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 68",
+                    artist: "Quiet",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 69",
+                    artist: "Still",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 70",
+                    artist: "Moment",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 71",
+                    artist: "Time",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 72",
+                    artist: "Memory",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 73",
+                    artist: "Echo",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 74",
+                    artist: "Reflection",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 75",
+                    artist: "Vision",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 76",
+                    artist: "Sight",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 77",
+                    artist: "View",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 78",
+                    artist: "Presence",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 79",
+                    artist: "Essence",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 80",
+                    artist: "Spirit",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 81",
+                    artist: "Soul",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 82",
+                    artist: "Heart",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 83",
+                    artist: "Warmth",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 84",
+                    artist: "Glow",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 85",
+                    artist: "Light",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 86",
+                    artist: "Shine",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 87",
+                    artist: "Sparkle",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 88",
+                    artist: "Brilliance",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 89",
+                    artist: "Radiance",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 90",
+                    artist: "Wonder",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 91",
+                    artist: "Awe",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 92",
+                    artist: "Magic",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 93",
+                    artist: "Enchant",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 94",
+                    artist: "Mystique",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 95",
+                    artist: "Beauty",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 96",
+                    artist: "Grace",
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 97",
+                    artist: "Elegance",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 98",
+                    artist: "Perfection",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 99",
+                    artist: "Eternity",
+                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Memory 100",
+                    artist: "Forever Friends",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 }];
             let u = 0;
             const g = p.length;
@@ -655,6 +1491,102 @@
                     }(), k()
             }), 1e3)
         }));    
+    </script>
+
+    <!-- Audio Player -->
+    <audio id="audioPlayer" style="display: none;" autoplay loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Playlist -->
+    <div class="playlist-container">
+        <div class="playlist-title">🎵 Songs for Memories</div>
+        <div class="playlist-item active" data-song="1" data-url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+            <span class="play-icon">▶</span>
+            <div class="song-info">
+                <div class="song-name">Nostalgic Times</div>
+                <div class="song-artist">Memory Waves</div>
+            </div>
+        </div>
+        <div class="playlist-item" data-song="2" data-url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+            <span class="play-icon">▶</span>
+            <div class="song-info">
+                <div class="song-name">Golden Days</div>
+                <div class="song-artist">Class Vibes</div>
+            </div>
+        </div>
+        <div class="playlist-item" data-song="3" data-url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+            <span class="play-icon">▶</span>
+            <div class="song-info">
+                <div class="song-name">Forever Young</div>
+                <div class="song-artist">Memory Lane</div>
+            </div>
+        </div>
+        <div class="playlist-item" data-song="4" data-url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">
+            <span class="play-icon">▶</span>
+            <div class="song-info">
+                <div class="song-name">Unforgettable</div>
+                <div class="song-artist">Heartbeats</div>
+            </div>
+        </div>
+        <div class="playlist-item" data-song="5" data-url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">
+            <span class="play-icon">▶</span>
+            <div class="song-info">
+                <div class="song-name">Together Again</div>
+                <div class="song-artist">Sweet Moments</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <span class="developer-credit">💻 Developed by @DR{Coder X}</span>
+        <a href="https://github.com/diron8846" target="_blank" class="github-link">
+            <span class="github-label">Follow Me</span>
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </a>
+    </footer>
+
+    <script>
+        // Audio player functionality
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        // Attempt to autoplay
+        audioPlayer.play().catch(() => {
+            console.log('Autoplay prevented by browser. Click the page to enable sound.');
+        });
+
+        // Playlist interactivity
+        document.querySelectorAll('.playlist-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const songUrl = this.getAttribute('data-url');
+                
+                // Update active state
+                document.querySelectorAll('.playlist-item').forEach(i => i.classList.add('active'));
+                
+                // Update audio source and play
+                if (songUrl) {
+                    audioPlayer.src = songUrl;
+                    audioPlayer.play().catch(() => {
+                        console.log('Autoplay prevented by browser');
+                    });
+                }
+            });
+            
+            item.addEventListener('mouseenter', function() {
+                this.querySelector('.play-icon').textContent = '⏵';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.querySelector('.play-icon').textContent = '▶';
+            });
+        });
+        
+        // Keep active state while playing
+        audioPlayer.addEventListener('play', function() {
+            document.querySelectorAll('.playlist-item').forEach(i => i.classList.add('active'));
+        });
     </script>
 </body>
 </html>
