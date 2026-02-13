@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie d'Art</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .gallery-container {
+            flex: 1;
+            position: relative;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .gallery {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+        }
+
+        .gallery > * {
+            pointer-events: auto;
+        }
+
+        .artwork {
+            position: absolute;
+            width: 400px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-origin: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            opacity: 0.9;
+        }
+
+        .artwork:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            opacity: 1;
+        }
+
+        .art-image {
+            height: 80%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s ease;
+            pointer-events: none;
+        }
+
+        .artwork:hover .art-image {
+            transform: scale(1.05);
+        }
+
+        .art-info {
+            padding: 20px;
+            height: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            transform: rotateY(0deg) !important;
+            pointer-events: none;
+        }
+
+        .art-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            transform: scaleX(-1);
+        }
+
+        .art-artist {
+            font-size: 1rem;
+            opacity: 0.9;
+            transform: scaleX(-1);
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+            display: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .counter {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .key-indicator {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            font-size: 1.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 98%;
+            height: 98%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-image {
+            max-width: 98%;
+            max-height: 98%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .lightbox-artist {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(180deg);
+        }
+
+        .lightbox-close p {
+            position: relative;
+            top: -3px;
+            font-size: 36px;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p class="subtitle">Explorez la collection - Cliquez sur une image pour l'agrandir</p>
+    </header>
+
+    <div class="gallery-container">
+        <div class="counter" id="counter">1 / 26</div>
+        <div class="gallery" id="gallery"></div>
+        
+        <div class="controls">
+            <button id="prevBtn">← Précédent</button>
+            <button id="nextBtn">Suivant →</button>
+            <button id="randomBtn">Aléatoire</button>
+        </div>
+
+        <div class="key-indicator">
+            <p>Molette souris | Glisser | Flèches ← → | Touches G D | Espace pour aléatoire | Clic pour agrandir</p>
+        </div>
+
+        <div class="loading" id="loading">
+            <p>Chargement de la galerie...</p>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">
+                <svg style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M810.65984 170.65984q18.3296 0 30.49472 12.16512t12.16512 30.49472q0 18.00192-12.32896 30.33088l-268.67712 268.32896 268.67712 268.32896q12.32896 12.32896 12.32896 30.33088 0 18.3296-12.16512 30.49472t-30.49472 12.16512q-18.00192 0-30.33088-12.32896l-268.32896-268.67712-268.32896 268.67712q-12.32896 12.32896-30.33088 12.32896-18.3296 0-30.49472-12.16512t-12.16512-30.49472q0-18.00192 12.32896-30.33088l268.67712-268.32896-268.67712-268.32896q-12.32896-12.32896-12.32896-30.33088 0-18.3296 12.16512-30.49472t30.49472-12.16512q18.00192 0 30.33088 12.32896l268.32896 268.67712 268.32896-268.67712q12.32896-12.32896 30.33088-12.32896z" />
+                </svg>
+            </button>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+            <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+            <img class="lightbox-image" id="lightboxImage" src="" alt="">
+            <div class="lightbox-info">
+                <div class="lightbox-title" id="lightboxTitle"></div>
+                <div class="lightbox-artist" id="lightboxArtist"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (function() {
+            const t = document.getElementById("gallery"),
+                e = document.getElementById("prevBtn"),
+                i = document.getElementById("nextBtn"),
+                a = document.getElementById("randomBtn"),
+                s = document.getElementById("loading"),
+                n = document.getElementById("counter"),
+                o = document.getElementById("lightbox"),
+                m = document.getElementById("lightboxClose"),
+                r = document.getElementById("lightboxImage"),
+                c = document.getElementById("lightboxTitle"),
+                d = document.getElementById("lightboxArtist"),
+                l = document.getElementById("lightboxPrev"),
+                h = document.getElementById("lightboxNext"),
+                p = [{
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1548777123-e216912df7d8?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1457269449834-928af64c684d?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1487383298905-ee8a6b373ff9?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1418985991508-e47386d96a71?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1414541944151-2f3ec1cfd87d?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://plus.unsplash.com/premium_photo-1671127303910-754ac2224c7a?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1422930717940-92ec7c690afc?w=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1635944095210-23114a1fb7c0?h=800"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1519608425089-7f3bfa6f6bb8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1509233725247-49e657c54213?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }, {
+                    title: "Titre",
+                    artist: "Commentaire",
+                    image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }];
+            let u = 0;
+            const g = p.length;
+            let f, C = !1,
+                v = 0,
+                E = 0,
+                y = 0;
+
+            function T(t) {
+                y = t;
+                const e = p[t];
+                r.src = e.image, c.textContent = e.title, d.textContent = e.artist, o.classList.add("active"), document.body.style.overflow = "hidden"
+            }
+
+            function I() {
+                o.classList.remove("active"), document.body.style.overflow = ""
+            }
+
+            function L() {
+                y = (y + 1) % g, T(y)
+            }
+
+            function b() {
+                y = (y - 1 + g) % g, T(y)
+            }
+
+            function k() {
+                t.style.transform = `rotateY(${u}rad)`, x()
+            }
+
+            function x() {
+                const t = (u % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI),
+                    e = Math.floor(t / (2 * Math.PI) * g) % g;
+                n.textContent = `${e+1} / ${g}`
+            }
+
+            function w() {
+                u -= 2 * Math.PI / g, k()
+            }
+
+            function B() {
+                u += 2 * Math.PI / g, k()
+            }
+
+            function M() {
+                const t = Math.floor(Math.random() * g);
+                u = -t * (2 * Math.PI) / g, k()
+            }
+            
+            document.addEventListener("keydown", (function(t) {
+                if (o.classList.contains("active")) switch (t.key) {
+                    case "Escape":
+                        I();
+                        break;
+                    case "ArrowRight":
+                        L();
+                        break;
+                    case "ArrowLeft":
+                        b()
+                } else switch (t.key) {
+                    case "ArrowRight":
+                    case "d":
+                    case "D":
+                        w();
+                        break;
+                    case "ArrowLeft":
+                    case "g":
+                    case "G":
+                        B();
+                        break;
+                    case " ":
+                        M(), t.preventDefault()
+                }
+            })), document.addEventListener("wheel", (function(t) {
+                if (!f && !o.classList.contains("active")) {
+                    if (t.deltaY > 0)
+                        for (let t = 0; t < 3; t++) w();
+                    else
+                        for (let t = 0; t < 3; t++) B();
+                    f = setTimeout((() => {
+                        f = null
+                    }), 200)
+                }
+            }), {
+                passive: !0
+            });
+            
+            let P = 0;
+            
+            let touchStartX = 0;
+            let touchStartU = 0;
+            let isTouching = false;
+            let touchStartTime = 0;
+            
+            document.addEventListener("touchstart", function(e) {
+                if (o.classList.contains("active")) return;
+                
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartU = u;
+                touchStartTime = Date.now();
+                isTouching = true;
+                
+                t.style.transition = "none";
+                
+                const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                const artwork = element ? element.closest(".artwork") : null;
+                
+                if (artwork) {
+                    T(parseInt(artwork.dataset.index));
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            document.addEventListener("touchmove", function(e) {
+                if (!isTouching || o.classList.contains("active")) return;
+                
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - touchStartX;
+                
+                u = touchStartU + 0.004 * deltaX;
+                k();
+                
+                e.preventDefault();
+            }, { passive: false });
+            
+            document.addEventListener("touchend", function(e) {
+                if (!isTouching) return;
+                
+                isTouching = false;
+                
+                t.style.transition = "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+                
+                const step = 2 * Math.PI / g;
+                const roundedU = Math.round(u / step) * step;
+                u = roundedU;
+                k();
+            });
+            
+            t.addEventListener("mousedown", (function(e) {
+                if (o.classList.contains("active")) return;
+                const i = e.target.closest(".artwork");
+                if (i) {
+                    T(parseInt(i.dataset.index))
+                } else C = !0, v = e.clientX, E = u, P = Date.now(), t.style.transition = "none", document.body.style.cursor = "grabbing"
+            })), document.addEventListener("mousemove", (function(t) {
+                if (!C || o.classList.contains("active")) return;
+                const e = t.clientX - v;
+                u = E + .004 * e, k()
+            })), document.addEventListener("mouseup", (function(e) {
+                if (!C) return;
+                if (Date.now() - P < 200) {
+                    const t = e.target.closest(".artwork");
+                    if (t) {
+                        T(parseInt(t.dataset.index))
+                    }
+                }
+                C = !1, t.style.transition = "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)", document.body.style.cursor = "default";
+                const i = 2 * Math.PI / g,
+                    a = Math.round(u / i) * i;
+                u = a, k()
+            })), e.addEventListener("click", B), i.addEventListener("click", w), a.addEventListener("click", M), m.addEventListener("click", I), h.addEventListener("click", L), l.addEventListener("click", b), o.addEventListener("click", (function(t) {
+                t.target === o && I()
+            })), setTimeout((function() {
+                s.classList.add("hidden"),
+                    function() {
+                        for (let e = 0; e < g; e++) {
+                            const i = document.createElement("div");
+                            i.className = "artwork", i.dataset.index = e;
+                            const a = e / g * Math.PI * 2;
+                            i.style.transform = `\n                        rotateY(${a}rad) \n                        translateZ(2000px)\n                    `;
+                            const s = document.createElement("div");
+                            s.className = "art-image", s.style.backgroundImage = `url(${p[e].image})`;
+                            const n = document.createElement("div");
+                            n.className = "art-info";
+                            const o = document.createElement("div");
+                            o.className = "art-title", o.textContent = p[e].title;
+                            const m = document.createElement("div");
+                            m.className = "art-artist", m.textContent = p[e].artist, n.appendChild(o), n.appendChild(m), i.appendChild(s), i.appendChild(n), i.addEventListener("click", (function(t) {
+                                t.stopPropagation(), T(e)
+                            })), t.appendChild(i)
+                        }
+                        x()
+                    }(), k()
+            }), 1e3)
+        }));    
+    </script>
+</body>
+</html>
