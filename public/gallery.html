@@ -8,6 +8,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
+        :root{
+            --accent1: #00D9FF;
+            --accent2: #7C3AED;
+            --accent3: #FF1493;
+            --gold1: #FFD700;
+            --gold2: #FFB400;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -35,7 +42,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 2.5rem;
             font-weight: 900;
-            background: linear-gradient(45deg, #00D9FF, #7C3AED, #FF1493, #00D9FF);
+            background: linear-gradient(45deg, var(--accent1), var(--accent2), var(--accent3), var(--accent1));
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -45,6 +52,31 @@
             animation: glowing 3s ease-in-out infinite, float 3s ease-in-out infinite;
             letter-spacing: 3px;
             margin-bottom: 10px;
+        }
+
+        /* Memory number style (golden flame) */
+        .memory-number {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--gold1), var(--gold2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(255,215,0,0.25), 0 0 16px rgba(255,160,0,0.12);
+            pointer-events: none;
+            z-index: 12;
+            filter: drop-shadow(0 6px 12px rgba(255,140,0,0.08));
+            animation: flame 2.5s ease-in-out infinite;
+        }
+
+        @keyframes flame {
+            0% { transform: translateY(0) scale(1); text-shadow: 0 0 6px rgba(255,215,0,0.2); }
+            50% { transform: translateY(-3px) scale(1.02); text-shadow: 0 0 18px rgba(255,165,0,0.35); }
+            100% { transform: translateY(0) scale(1); text-shadow: 0 0 6px rgba(255,215,0,0.2); }
         }
 
         @keyframes glowing {
@@ -159,6 +191,40 @@
             gap: 20px;
             z-index: 10;
             display: none;
+        }
+
+        /* Theme controls */
+        .theme-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .theme-controls button {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.25);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .unmute-btn {
+            position: fixed;
+            bottom: 18px;
+            right: 18px;
+            z-index: 50;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: linear-gradient(90deg,var(--accent1),var(--accent2));
+            color: #111;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: none;
+            display: none;
+            cursor: pointer;
         }
 
         button {
@@ -865,6 +931,11 @@
         <h1 class="main-title">𝐁𝐘 Class Group 6 Gallery</h1>
         <p class="subtitle">✨ Click on images to view full size ✨</p>
     </header>
+    <div class="theme-controls" aria-hidden="false">
+        <button data-theme="default">Default</button>
+        <button data-theme="cool">Cool</button>
+        <button data-theme="gold">Gold</button>
+    </div>
 
     <div class="gallery-container">
         <div class="counter" id="counter">1 / 26</div>
@@ -917,395 +988,114 @@
                 d = document.getElementById("lightboxArtist"),
                 l = document.getElementById("lightboxPrev"),
                 h = document.getElementById("lightboxNext"),
-                p = [{
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1548777123-e216912df7d8?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1457269449834-928af64c684d?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1487383298905-ee8a6b373ff9?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1418985991508-e47386d96a71?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1414541944151-2f3ec1cfd87d?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://plus.unsplash.com/premium_photo-1671127303910-754ac2224c7a?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1422930717940-92ec7c690afc?w=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1635944095210-23114a1fb7c0?h=800"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1519608425089-7f3bfa6f6bb8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1509233725247-49e657c54213?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Titre",
-                    artist: "Commentaire",
-                    image: "https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 27",
-                    artist: "Class Moment",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 28",
-                    artist: "Group Photo",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 29",
-                    artist: "Friends Forever",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 30",
-                    artist: "Celebration Time",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 31",
-                    artist: "Campus Life",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 32",
-                    artist: "Team Spirit",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 33",
-                    artist: "Good Times",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 34",
-                    artist: "Joyful Moments",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 35",
-                    artist: "Together",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 36",
-                    artist: "Bond",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 37",
-                    artist: "Laughter",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 38",
-                    artist: "Friendship",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 39",
-                    artist: "Precious",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 40",
-                    artist: "Future",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 41",
-                    artist: "Forever",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 42",
-                    artist: "Class 2024",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 43",
-                    artist: "Chronicles",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 44",
-                    artist: "Stories",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 45",
-                    artist: "Legacy",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 46",
-                    artist: "Journey",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 47",
-                    artist: "Adventure",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 48",
-                    artist: "Milestone",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 49",
-                    artist: "Triumph",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 50",
-                    artist: "Golden Hour",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 51",
-                    artist: "Sunset",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 52",
-                    artist: "Sunrise",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 53",
-                    artist: "Dreams",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 54",
-                    artist: "Hope",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 55",
-                    artist: "Inspiration",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 56",
-                    artist: "Passion",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 57",
-                    artist: "Energy",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 58",
-                    artist: "Vitality",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 59",
-                    artist: "Life",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 60",
-                    artist: "Love",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 61",
-                    artist: "Care",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 62",
-                    artist: "Unity",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 63",
-                    artist: "Harmony",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 64",
-                    artist: "Balance",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 65",
-                    artist: "Peace",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 66",
-                    artist: "Serenity",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 67",
-                    artist: "Calm",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 68",
-                    artist: "Quiet",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 69",
-                    artist: "Still",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 70",
-                    artist: "Moment",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 71",
-                    artist: "Time",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 72",
-                    artist: "Memory",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 73",
-                    artist: "Echo",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 74",
-                    artist: "Reflection",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 75",
-                    artist: "Vision",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 76",
-                    artist: "Sight",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 77",
-                    artist: "View",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 78",
-                    artist: "Presence",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 79",
-                    artist: "Essence",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 80",
-                    artist: "Spirit",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 81",
-                    artist: "Soul",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 82",
-                    artist: "Heart",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 83",
-                    artist: "Warmth",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 84",
-                    artist: "Glow",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 85",
-                    artist: "Light",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 86",
-                    artist: "Shine",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 87",
-                    artist: "Sparkle",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 88",
-                    artist: "Brilliance",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 89",
-                    artist: "Radiance",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 90",
-                    artist: "Wonder",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 91",
-                    artist: "Awe",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 92",
-                    artist: "Magic",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 93",
-                    artist: "Enchant",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 94",
-                    artist: "Mystique",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 95",
-                    artist: "Beauty",
-                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 96",
-                    artist: "Grace",
-                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 97",
-                    artist: "Elegance",
-                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 98",
-                    artist: "Perfection",
-                    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 99",
-                    artist: "Eternity",
-                    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }, {
-                    title: "Memory 100",
-                    artist: "Forever Friends",
-                    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                }];
+                p = (function(){
+                    const files = [
+                        "../IMG-20251203-WA0325.jpg",
+                        "../IMG-20251203-WA0176.jpg",
+                        "../IMG-20251128-WA0045 (1).jpg",
+                        "../1771000711555.jpg",
+                        "../IMG-20251203-WA0035.jpg",
+                        "../IMG-20251203-WA0041.jpg",
+                        "../IMG-20251128-WA0066 (1).jpg",
+                        "../IMG-20251128-WA0050.jpg",
+                        "../IMG-20251203-WA0018.jpg",
+                        "../IMG-20251203-WA0387.jpg",
+                        "../IMG-20251203-WA0405.jpg",
+                        "../IMG-20251203-WA0029.jpg",
+                        "../IMG-20251128-WA0051 (1).jpg",
+                        "../IMG-20251128-WA0040 (1).jpg",
+                        "../IMG-20251203-WA0418.jpg",
+                        "../IMG-20251128-WA0068.jpg",
+                        "../IMG-20251203-WA0019.jpg",
+                        "../IMG-20251128-WA0047.jpg",
+                        "../IMG-20251203-WA0417.jpg",
+                        "../IMG-20251128-WA0054 (1).jpg",
+                        "../IMG-20251128-WA0057 (1).jpg",
+                        "../IMG-20251128-WA0033.jpg",
+                        "../IMG-20251203-WA0033.jpg",
+                        "../IMG-20251203-WA0236.jpg",
+                        "../IMG-20251203-WA0416.jpg",
+                        "../IMG-20251203-WA0515.jpg",
+                        "../IMG-20251203-WA0054.jpg",
+                        "../IMG-20251203-WA0243.jpg",
+                        "../IMG-20251203-WA0473.jpg",
+                        "../IMG_20251210_152925.jpg",
+                        "../IMG-20251203-WA0240.jpg",
+                        "../IMG-20251203-WA0628.jpg",
+                        "../IMG-20251128-WA0067.jpg",
+                        "../IMG-20251203-WA0278.jpg",
+                        "../IMG-20251128-WA0048.jpg",
+                        "../IMG-20251203-WA0276.jpg",
+                        "../IMG-20251128-WA0071.jpg",
+                        "../IMG-20251128-WA0038 (1).jpg",
+                        "../IMG-20251128-WA0066.jpg",
+                        "../1771000754842.jpg",
+                        "../IMG-20251203-WA0279.jpg",
+                        "../IMG-20251203-WA0556.jpg",
+                        "../1771000743976.jpg",
+                        "../IMG-20251115-WA0643 (1).jpg",
+                        "../IMG_20251210_151901.jpg",
+                        "../IMG-20251128-WA0057.jpg",
+                        "../IMG-20251203-WA0277.jpg",
+                        "../IMG-20251203-WA0404.jpg",
+                        "../IMG-20251128-WA0058.jpg",
+                        "../IMG-20251203-WA0579.jpg",
+                        "../1765390637237.jpg",
+                        "../IMG-20251128-WA0045.jpg",
+                        "../IMG-20251128-WA0033 (1).jpg",
+                        "../IMG-20251203-WA0036.jpg",
+                        "../IMG-20251203-WA0017.jpg",
+                        "../IMG-20251128-WA0054.jpg",
+                        "../IMG-20251203-WA0238.jpg",
+                        "../IMG-20251128-WA0071 (1).jpg",
+                        "../IMG_20251210_151845.jpg",
+                        "../IMG-20251203-WA0099.jpg",
+                        "../IMG-20251203-WA0158.jpg",
+                        "../IMG-20251203-WA0283.jpg",
+                        "../IMG-20251203-WA0408.jpg",
+                        "../IMG-20251203-WA0520.jpg",
+                        "../IMG-20251203-WA0052.jpg",
+                        "../IMG-20251203-WA0290.jpg",
+                        "../IMG-20251128-WA0042 (1).jpg",
+                        "../IMG-20251203-WA0179.jpg",
+                        "../1771000720951.jpg",
+                        "../IMG-20251203-WA0568.jpg",
+                        "../IMG-20251203-WA0390.jpg",
+                        "../IMG-20251128-WA0034.jpg",
+                        "../IMG-20251128-WA0070.jpg",
+                        "../IMG-20251203-WA0291.jpg",
+                        "../IMG-20251203-WA0282.jpg",
+                        "../IMG-20251128-WA0038.jpg",
+                        "../IMG-20251128-WA0034 (1).jpg",
+                        "../IMG-20251203-WA0284.jpg",
+                        "../IMG-20251203-WA0032.jpg",
+                        "../IMG-20251210-WA0025.jpg",
+                        "../IMG-20251128-WA0043.jpg",
+                        "../IMG-20251128-WA0048 (1).jpg",
+                        "../IMG-20251203-WA0025.jpg",
+                        "../IMG-20251128-WA0051.jpg",
+                        "../IMG-20251128-WA0058 (1).jpg",
+                        "../IMG-20251203-WA0178.jpg",
+                        "../IMG-20251210-WA0048.jpg",
+                        "../1771000735082.jpg",
+                        "../IMG-20251128-WA0069.jpg",
+                        "../IMG-20251203-WA0403.jpg",
+                        "../IMG-20251128-WA0046.jpg",
+                        "../IMG-20251128-WA0050 (1).jpg",
+                        "../IMG-20251128-WA0040.jpg",
+                        "../IMG-20251203-WA0030.jpg",
+                        "../IMG-20251203-WA0132.jpg",
+                        "../IMG_20251210_151851.jpg",
+                        "../IMG-20251128-WA0042.jpg",
+                        "../IMG_20251210_151121.jpg",
+                        "../IMG-20251203-WA0051.jpg"
+                    ];
+                    return files.map((f, i) => ({
+                        title: `Memory ${i+1}`,
+                        artist: "",
+                        image: encodeURI(f)
+                    }));
+                })();
             let u = 0;
             const g = p.length;
             let f, C = !1,
@@ -1473,19 +1263,43 @@
                     function() {
                         for (let e = 0; e < g; e++) {
                             const i = document.createElement("div");
-                            i.className = "artwork", i.dataset.index = e;
+                            i.className = "artwork";
+                            i.dataset.index = e;
                             const a = e / g * Math.PI * 2;
                             i.style.transform = `\n                        rotateY(${a}rad) \n                        translateZ(2000px)\n                    `;
+
+                            // Memory number badge
+                            const numEl = document.createElement("div");
+                            numEl.className = "memory-number";
+                            numEl.textContent = `${e+1}`;
+                            i.appendChild(numEl);
+
                             const s = document.createElement("div");
-                            s.className = "art-image", s.style.backgroundImage = `url(${p[e].image})`;
+                            s.className = "art-image";
+                            s.style.backgroundImage = `url(${p[e].image})`;
+
                             const n = document.createElement("div");
                             n.className = "art-info";
+
                             const o = document.createElement("div");
-                            o.className = "art-title", o.textContent = p[e].title;
+                            o.className = "art-title";
+                            o.textContent = p[e].title;
+
                             const m = document.createElement("div");
-                            m.className = "art-artist", m.textContent = p[e].artist, n.appendChild(o), n.appendChild(m), i.appendChild(s), i.appendChild(n), i.addEventListener("click", (function(t) {
-                                t.stopPropagation(), T(e)
-                            })), t.appendChild(i)
+                            m.className = "art-artist";
+                            m.textContent = p[e].artist;
+
+                            n.appendChild(o);
+                            n.appendChild(m);
+                            i.appendChild(s);
+                            i.appendChild(n);
+
+                            i.addEventListener("click", (function(t) {
+                                t.stopPropagation();
+                                T(e);
+                            }));
+
+                            t.appendChild(i);
                         }
                         x()
                     }(), k()
@@ -1494,9 +1308,11 @@
     </script>
 
     <!-- Audio Player -->
-    <audio id="audioPlayer" style="display: none;" autoplay loop>
+    <audio id="audioPlayer" style="display: none;" autoplay loop muted>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
+
+    <button id="unmuteBtn" class="unmute-btn">Enable Sound</button>
 
     <!-- Music Playlist -->
     <div class="playlist-container">
@@ -1540,7 +1356,7 @@
 
     <!-- Footer -->
     <footer>
-        <span class="developer-credit">💻 Developed by @DR{Coder X}</span>
+        <span class="developer-credit">💻 Developed by Dairon 👍</span>
         <a href="https://github.com/diron8846" target="_blank" class="github-link">
             <span class="github-label">Follow Me</span>
             <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -1587,6 +1403,47 @@
         audioPlayer.addEventListener('play', function() {
             document.querySelectorAll('.playlist-item').forEach(i => i.classList.add('active'));
         });
+
+        // Unmute / autoplay helper: show enable button when autoplay is blocked (audio is muted initially)
+        const unmuteBtn = document.getElementById('unmuteBtn');
+        if (audioPlayer && unmuteBtn) {
+            if (audioPlayer.muted) {
+                unmuteBtn.style.display = 'block';
+            }
+            unmuteBtn.addEventListener('click', () => {
+                audioPlayer.muted = false;
+                audioPlayer.play().catch(() => {});
+                unmuteBtn.style.display = 'none';
+            });
+        }
+
+        // Theme controls
+        const themeButtons = document.querySelectorAll('.theme-controls button');
+        function applyTheme(name){
+            const r = document.documentElement.style;
+            if(name === 'cool'){
+                r.setProperty('--accent1','#00E5FF');
+                r.setProperty('--accent2','#4C1D95');
+                r.setProperty('--accent3','#FF6FD8');
+                r.setProperty('--gold1','#FFD680');
+                r.setProperty('--gold2','#FFB84D');
+            } else if(name === 'gold'){
+                r.setProperty('--accent1','#FFB400');
+                r.setProperty('--accent2','#8B5E34');
+                r.setProperty('--accent3','#FF7A00');
+                r.setProperty('--gold1','#FFD700');
+                r.setProperty('--gold2','#FF9F1C');
+            } else {
+                r.setProperty('--accent1','#00D9FF');
+                r.setProperty('--accent2','#7C3AED');
+                r.setProperty('--accent3','#FF1493');
+                r.setProperty('--gold1','#FFD700');
+                r.setProperty('--gold2','#FFB400');
+            }
+        }
+        themeButtons.forEach(btn => btn.addEventListener('click', () => {
+            applyTheme(btn.getAttribute('data-theme'));
+        }));
     </script>
 </body>
 </html>
